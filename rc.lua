@@ -287,13 +287,29 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
  
     awful.key({ modkey            }, "t", function() shifty.add({ rel_index = 1 }) end, nil, "new tag"),
-    awful.key({ modkey, "Control" }, "t", function() shifty.add({ rel_index = 1, nopopup = true }) end, nil, "new tag in bg"),
-    awful.key({ modkey            }, "r", shifty.rename, nil, "tag rename"),
+    awful.key({ modkey, "Shift" }, "t", function() shifty.add({ rel_index = 1, nopopup = true }) end, nil, "new tag in bg"),
+
+    awful.key({ modkey            }, "n",       shifty.send_next),          -- move client to next tag
+    awful.key({ modkey, "Shift"   }, "n",       shifty.send_prev),          -- move client to prev tag
+    awful.key({ modkey, "Control" }, "n",       function ()                 -- move a tag to next screen
+        local ts = awful.tag.selected()
+        awful.tag.history.restore(ts.screen,1)
+        shifty.set(ts,{ screen = awful.util.cycle(screen.count(), ts.screen +1)})
+        awful.tag.viewonly(ts)
+        mouse.screen = ts.screen
+
+        if #ts:clients() > 0 then
+            local c = ts:clients()[1]
+            client.focus = c
+            c:raise()
+        end
+        
+    end),
+    awful.key({ modkey, "Shift"   }, "r", shifty.rename, nil, "tag rename"),
     awful.key({ modkey            }, "w", shifty.del, nil, "tag delete"),
 
     awful.key({ modkey            }, 'i', ti, nil, "tag info"),
     awful.key({ modkey, "Shift"   }, "i", ci, nil, "client info"),
-    awful.key({ modkey, "Shift"   }, "o", function() shifty.set(awful.tag.selected(mouse.screen), { screen = awful.util.cycle(screen.count() , mouse.screen + 1) }) end, nil, "move tag to next screen"),
 
     awful.key({ modkey,           }, "j",
         function ()
