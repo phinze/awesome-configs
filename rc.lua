@@ -120,14 +120,16 @@ shifty.config.defaults = {
 }
 shifty.config.tags = {
     ["term"]  = { position = 1, init = true },
-    ["www"]  =  { position = 2, solitary = true, exclusive = false, layout = awful.layout.suit.max, nopopup = true },
-    ["code"] = { persist = true, position = 3, }
+    ["www"]  =  { position = 2, exclusive = false, nopopup = true },
+    ["code"] =  { persist = true, position = 3, },
+    ["comm"] =  { position = 4 },
 }
 
 shifty.config.apps = {
-  { match = { "chat",                         }, tag = "chat",  },
-  { match = { "mail",                         }, tag = "mail",  },
-  { match = { "pandora",                      }, tag = "music", },
+  { match = {"chat"                           }, tag = {"comm", "www"},  },
+  { match = {"mail"                           }, tag = {"comm", "www"},  },
+  { match = {"pandora"                        }, tag = "music", },
+  { match = {"work", "tests"                  }, tag = "code",  },
   { match = {"Shiretoko.*", ".* - Vimperator" }, tag = "www"    },
   { match = {"urxvt"                          }, tag = "term",  },
   { match = {"term:.*"                        }, tag = "term",  },
