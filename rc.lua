@@ -119,20 +119,23 @@ shifty.config.defaults = {
   nopopup = true
 }
 shifty.config.tags = {
-    ["term"]  = { position = 1, init = true },
-    ["www"]  =  { position = 2, exclusive = false, nopopup = true },
-    ["code"] =  { persist = true, position = 3, },
-    ["comm"] =  { position = 4 },
+    ["1:term"]  = { position = 1, init = true },
+    ["2:www"]  =  { position = 2, exclusive = false, nopopup = true },
+    ["3:code"] =  { persist = true, position = 3, },
+    ["4:comm"] =  { position = 4 },
+    ["5:music"] =  { position = 5 },
+    ["6:mail"] =  { position = 6 },
+    ["7:irc"] =  { position = 6 },
 }
 
 shifty.config.apps = {
-  { match = {"chat"                           }, tag = {"comm", "www"},  },
-  { match = {"mail"                           }, tag = {"comm", "www"},  },
-  { match = {"pandora"                        }, tag = "music", },
-  { match = {"work", "tests"                  }, tag = "code",  },
-  { match = {"Shiretoko.*", ".* - Vimperator" }, tag = "www"    },
-  { match = {"urxvt"                          }, tag = "term",  },
-  { match = {"term:.*"                        }, tag = "term",  },
+  { match = {"urxvt"                          }, tag = "1:term",  },
+  { match = {"Shiretoko.*", ".* - Vimperator" }, tag = "2:www"    },
+  { match = {"chat"                           }, tag = {"7:irc",  "4:comm", "2:www"},  },
+  { match = {"mail"                           }, tag = {"6:mail", "4:comm", "2:www"},  },
+  { match = {"pandora"                        }, tag = "5:music", },
+  { match = {"term:.*"                        }, tag = "1:term",  },
+  { match = {"work", "tests", "testing"       }, tag = "3:code",  },
   { match = { "" }, honorsizehints = true,
     buttons = {
       awful.button({ },        1, function (c) client.focus = c; c:raise() end),
